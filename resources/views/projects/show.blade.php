@@ -74,11 +74,19 @@
                                             data-task-id="{{ $task->id }}"
                                             data-status="todo">
                                             <div class="font-semibold text-gray-900">{{ $task->title }}</div>
-                                            <div class="mt-1 text-xs text-gray-500">
-                                                Priority: {{ ucfirst($task->priority) }}<br>
-                                                Due: {{ $task->due_date ?? '-' }}<br>
-                                                Assignee: {{ $task->assignee->name ?? 'Unassigned' }}
+                                            <div class="mt-1 text-xs text-gray-500 space-y-1">
+                                                <div>
+                                                    Priority:
+                                                    <x-priority-badge :priority="$task->priority" class="ml-1" />
+                                                </div>
+                                                <div>
+                                                    Due: {{ $task->due_date ?? '-' }}
+                                                </div>
+                                                <div>
+                                                    Assignee: {{ $task->assignee->name ?? 'Unassigned' }}
+                                                </div>
                                             </div>
+
 
                                             <div class="mt-3 flex justify-end space-x-1">
                                                 <a href="{{ route('tasks.edit', $task) }}"
@@ -121,10 +129,17 @@
                                             data-task-id="{{ $task->id }}"
                                             data-status="in_progress">
                                             <div class="font-semibold text-gray-900">{{ $task->title }}</div>
-                                            <div class="mt-1 text-xs text-gray-500">
-                                                Priority: {{ ucfirst($task->priority) }}<br>
-                                                Due: {{ $task->due_date ?? '-' }}<br>
-                                                Assignee: {{ $task->assignee->name ?? 'Unassigned' }}
+                                            <div class="mt-1 text-xs text-gray-500 space-y-1">
+                                                <div>
+                                                    Priority:
+                                                    <x-priority-badge :priority="$task->priority" class="ml-1" />
+                                                </div>
+                                                <div>
+                                                    Due: {{ $task->due_date ?? '-' }}
+                                                </div>
+                                                <div>
+                                                    Assignee: {{ $task->assignee->name ?? 'Unassigned' }}
+                                                </div>
                                             </div>
 
                                             <div class="mt-3 flex justify-end space-x-1">
@@ -168,10 +183,17 @@
                                             data-task-id="{{ $task->id }}"
                                             data-status="done">
                                             <div class="font-semibold text-gray-900">{{ $task->title }}</div>
-                                            <div class="mt-1 text-xs text-gray-500">
-                                                Priority: {{ ucfirst($task->priority) }}<br>
-                                                Due: {{ $task->due_date ?? '-' }}<br>
-                                                Assignee: {{ $task->assignee->name ?? 'Unassigned' }}
+                                            <div class="mt-1 text-xs text-gray-500 space-y-1">
+                                                <div>
+                                                    Priority:
+                                                    <x-priority-badge :priority="$task->priority" class="ml-1" />
+                                                </div>
+                                                <div>
+                                                    Due: {{ $task->due_date ?? '-' }}
+                                                </div>
+                                                <div>
+                                                    Assignee: {{ $task->assignee->name ?? 'Unassigned' }}
+                                                </div>
                                             </div>
 
                                             <div class="mt-3 flex justify-end space-x-1">
