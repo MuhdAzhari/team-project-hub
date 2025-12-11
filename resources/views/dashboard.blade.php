@@ -3,6 +3,12 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
         </h2>
+        <div class="text-sm text-gray-500">
+            Role:
+            <span class="font-semibold">
+                {{ ucfirst(auth()->user()->role ?? 'member') }}
+            </span>
+        </div>
     </x-slot>
 
     <div class="py-6">
