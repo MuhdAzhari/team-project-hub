@@ -18,7 +18,7 @@
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 space-y-2">
                     <p><strong>Client:</strong> {{ $project->client?->name ?? '-' }}</p>
-                    <p><strong>Status:</strong> {{ ucfirst(str_replace('_', ' ', $project->status)) }}</p>
+                    <p><strong>Status:</strong>  <x-status-badge :status="$project->status" /></p>
                     <p><strong>Start Date:</strong> {{ $project->start_date ?? '-' }}</p>
                     <p><strong>End Date:</strong> {{ $project->end_date ?? '-' }}</p>
                     <p><strong>Description:</strong> {{ $project->description ?? '-' }}</p>

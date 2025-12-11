@@ -44,7 +44,7 @@
                                         </a>
                                     </td>
                                     <td class="px-3 py-2">{{ $project->client?->name }}</td>
-                                    <td class="px-3 py-2">{{ ucfirst(str_replace('_', ' ', $project->status)) }}</td>
+                                    <td class="px-3 py-2"> <x-status-badge :status="$project->status" /></td>
                                     <td class="px-3 py-2">{{ $project->start_date }}</td>
                                     <td class="px-3 py-2">{{ $project->end_date }}</td>
                                     <td class="px-3 py-2 text-right space-x-2">
