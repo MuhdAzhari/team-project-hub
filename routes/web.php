@@ -11,11 +11,6 @@ use App\Http\Controllers\DashboardController;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group.
-|
 */
 
 // Redirect homepage → dashboard
@@ -28,7 +23,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-// Protected routes
+// Routes for all authenticated users
 Route::middleware(['auth'])->group(function () {
 
     // Profile routes (from Breeze)
@@ -36,17 +31,29 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Clients & Projects
-    Route::resource('clients', ClientController::class);
-    Route::resource('projects', ProjectController::class);
+    // Project views (read-only for non-admin)
+    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+    Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
 
-    // Tasks (no separate index/show; tasks are always viewed via project)
-    Route::resource('tasks', TaskController::class)->except(['index', 'show']);
-
-    // Quick status update for Kanban
+    // Kanban status update – all authenticated users can move tasks
     Route::patch('tasks/{task}/status', [TaskController::class, 'updateStatus'])
         ->name('tasks.update-status');
 });
 
-// Auth scaffolding
+// Admin-only routes (full management)
+Route::middleware(['auth', 'role:admin'])->group(function () {
+
+    // Full client management
+    Route::resource('clients', ClientController::class);
+
+    // Admin manages projects (create/edit/delete)
+    // index + show already defined above for all users
+    Route::resource('projects', ProjectController::class)->except(['index', 'show']);
+
+    // Admin manages tasks (create/edit/delete)
+    // tasks are always viewed via project, so no index/show here
+    Route::resource('tasks', TaskController::class)->except(['index', 'show']);
+});
+
+// Auth scaffolding (Breeze)
 require __DIR__.'/auth.php';
