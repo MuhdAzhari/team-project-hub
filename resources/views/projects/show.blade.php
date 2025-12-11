@@ -33,7 +33,7 @@
             </div>
 
             {{-- Kanban board --}}
-            <div class="bg-white shadow-sm sm:rounded-lg">
+            <div class="bg-white shadow-sm sm:rounded-lg mt-6">
                 <div class="p-6 text-gray-900">
 
                     <div class="flex items-center justify-between mb-4">
@@ -45,9 +45,9 @@
                     </div>
 
                     @php
-                        $todo = $project->tasks->where('status', 'todo');
+                        $todo       = $project->tasks->where('status', 'todo');
                         $inProgress = $project->tasks->where('status', 'in_progress');
-                        $done = $project->tasks->where('status', 'done');
+                        $done       = $project->tasks->where('status', 'done');
                     @endphp
 
                     @if ($project->tasks->isEmpty())
@@ -55,23 +55,28 @@
                     @else
                         <div id="kanban-board" class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
-                            {{-- TODO column --}}
-                            <div class="kanban-column" data-status="todo">
-                                <h4 class="font-semibold mb-2">To Do</h4>
-                                <div class="space-y-3 min-h-[50px] kanban-column-body">
+                            {{-- To Do column --}}
+                            <div class="kanban-column rounded-lg bg-sky-50/60 border border-sky-100"
+                                data-status="todo">
+                                <div class="flex items-center justify-between px-3 pt-3 pb-1">
+                                    <h4 class="font-semibold text-sky-900 text-sm uppercase tracking-wide">
+                                        To Do
+                                    </h4>
+                                    <span class="text-xs px-2 py-1 rounded-full bg-sky-100 text-sky-700">
+                                        {{ $todo->count() }}
+                                    </span>
+                                </div>
+                                <div class="kanban-column-body space-y-3 min-h-[4rem] px-3 pb-3">
                                     @foreach ($todo as $task)
-                                        <div class="task-card border rounded-md p-3 bg-gray-50 cursor-move"
+                                        <div class="task-card border border-sky-100 rounded-md p-3 bg-white cursor-move
+                                                    shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5"
                                             draggable="true"
                                             data-task-id="{{ $task->id }}"
                                             data-status="todo">
-                                            <div class="font-semibold">{{ $task->title }}</div>
-                                            <div class="text-xs text-gray-500">
-                                                Priority: {{ ucfirst($task->priority) }}
-                                            </div>
-                                            <div class="text-xs text-gray-500">
-                                                Due: {{ $task->due_date ?? '-' }}
-                                            </div>
-                                            <div class="text-xs text-gray-500">
+                                            <div class="font-semibold text-gray-900">{{ $task->title }}</div>
+                                            <div class="mt-1 text-xs text-gray-500">
+                                                Priority: {{ ucfirst($task->priority) }}<br>
+                                                Due: {{ $task->due_date ?? '-' }}<br>
                                                 Assignee: {{ $task->assignee->name ?? 'Unassigned' }}
                                             </div>
 
@@ -98,22 +103,27 @@
                             </div>
 
                             {{-- In Progress column --}}
-                            <div class="kanban-column" data-status="in_progress">
-                                <h4 class="font-semibold mb-2">In Progress</h4>
-                                <div class="space-y-3 min-h-[50px] kanban-column-body">
+                            <div class="kanban-column rounded-lg bg-amber-50/60 border border-amber-100"
+                                data-status="in_progress">
+                                <div class="flex items-center justify-between px-3 pt-3 pb-1">
+                                    <h4 class="font-semibold text-amber-900 text-sm uppercase tracking-wide">
+                                        In Progress
+                                    </h4>
+                                    <span class="text-xs px-2 py-1 rounded-full bg-amber-100 text-amber-700">
+                                        {{ $inProgress->count() }}
+                                    </span>
+                                </div>
+                                <div class="kanban-column-body space-y-3 min-h-[4rem] px-3 pb-3">
                                     @foreach ($inProgress as $task)
-                                        <div class="task-card border rounded-md p-3 bg-gray-50 cursor-move"
+                                        <div class="task-card border border-amber-100 rounded-md p-3 bg-white cursor-move
+                                                    shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5"
                                             draggable="true"
                                             data-task-id="{{ $task->id }}"
                                             data-status="in_progress">
-                                            <div class="font-semibold">{{ $task->title }}</div>
-                                            <div class="text-xs text-gray-500">
-                                                Priority: {{ ucfirst($task->priority) }}
-                                            </div>
-                                            <div class="text-xs text-gray-500">
-                                                Due: {{ $task->due_date ?? '-' }}
-                                            </div>
-                                            <div class="text-xs text-gray-500">
+                                            <div class="font-semibold text-gray-900">{{ $task->title }}</div>
+                                            <div class="mt-1 text-xs text-gray-500">
+                                                Priority: {{ ucfirst($task->priority) }}<br>
+                                                Due: {{ $task->due_date ?? '-' }}<br>
                                                 Assignee: {{ $task->assignee->name ?? 'Unassigned' }}
                                             </div>
 
@@ -140,22 +150,27 @@
                             </div>
 
                             {{-- Done column --}}
-                            <div class="kanban-column" data-status="done">
-                                <h4 class="font-semibold mb-2">Done</h4>
-                                <div class="space-y-3 min-h-[50px] kanban-column-body">
+                            <div class="kanban-column rounded-lg bg-emerald-50/60 border border-emerald-100"
+                                data-status="done">
+                                <div class="flex items-center justify-between px-3 pt-3 pb-1">
+                                    <h4 class="font-semibold text-emerald-900 text-sm uppercase tracking-wide">
+                                        Done
+                                    </h4>
+                                    <span class="text-xs px-2 py-1 rounded-full bg-emerald-100 text-emerald-700">
+                                        {{ $done->count() }}
+                                    </span>
+                                </div>
+                                <div class="kanban-column-body space-y-3 min-h-[4rem] px-3 pb-3">
                                     @foreach ($done as $task)
-                                        <div class="task-card border rounded-md p-3 bg-gray-50 cursor-move"
+                                        <div class="task-card border border-emerald-100 rounded-md p-3 bg-white cursor-move
+                                                    shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5"
                                             draggable="true"
                                             data-task-id="{{ $task->id }}"
                                             data-status="done">
-                                            <div class="font-semibold">{{ $task->title }}</div>
-                                            <div class="text-xs text-gray-500">
-                                                Priority: {{ ucfirst($task->priority) }}
-                                            </div>
-                                            <div class="text-xs text-gray-500">
-                                                Due: {{ $task->due_date ?? '-' }}
-                                            </div>
-                                            <div class="text-xs text-gray-500">
+                                            <div class="font-semibold text-gray-900">{{ $task->title }}</div>
+                                            <div class="mt-1 text-xs text-gray-500">
+                                                Priority: {{ ucfirst($task->priority) }}<br>
+                                                Due: {{ $task->due_date ?? '-' }}<br>
                                                 Assignee: {{ $task->assignee->name ?? 'Unassigned' }}
                                             </div>
 
@@ -187,11 +202,10 @@
                 </div>
             </div>
 
-            {{-- Inline script for drag-and-drop --}}
+            {{-- Drag-and-drop script --}}
             <script>
                 document.addEventListener('DOMContentLoaded', function () {
                     let draggedCard = null;
-
                     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
                     // Make task cards draggable
@@ -200,33 +214,33 @@
                             draggedCard = this;
                             e.dataTransfer.effectAllowed = 'move';
                             e.dataTransfer.setData('text/plain', this.dataset.taskId);
-                            this.classList.add('opacity-50');
+                            this.classList.add('opacity-60');
                         });
 
                         card.addEventListener('dragend', function () {
-                            this.classList.remove('opacity-50');
+                            this.classList.remove('opacity-60');
                             draggedCard = null;
                         });
                     });
 
                     // Make columns droppable
                     document.querySelectorAll('.kanban-column').forEach(function (column) {
-                        const body = column.querySelector('.kanban-column-body');
+                        const body      = column.querySelector('.kanban-column-body');
                         const newStatus = column.dataset.status;
 
                         column.addEventListener('dragover', function (e) {
                             e.preventDefault();
                             e.dataTransfer.dropEffect = 'move';
-                            column.classList.add('bg-gray-100');
+                            column.classList.add('ring-2', 'ring-blue-300');
                         });
 
                         column.addEventListener('dragleave', function () {
-                            column.classList.remove('bg-gray-100');
+                            column.classList.remove('ring-2', 'ring-blue-300');
                         });
 
                         column.addEventListener('drop', function (e) {
                             e.preventDefault();
-                            column.classList.remove('bg-gray-100');
+                            column.classList.remove('ring-2', 'ring-blue-300');
 
                             if (!draggedCard) {
                                 return;
@@ -234,11 +248,11 @@
 
                             const taskId = draggedCard.dataset.taskId;
 
-                            // Optimistic UI update: move the card immediately
+                            // Optimistic UI: move card immediately
                             body.appendChild(draggedCard);
                             draggedCard.dataset.status = newStatus;
 
-                            // Send AJAX request to update status on server
+                            // Update server
                             fetch(`/tasks/${taskId}/status`, {
                                 method: 'PATCH',
                                 headers: {
@@ -249,7 +263,6 @@
                                 body: JSON.stringify({ status: newStatus })
                             }).then(function (response) {
                                 if (!response.ok) {
-                                    // If something went wrong, reload to stay consistent
                                     window.location.reload();
                                 }
                             }).catch(function () {
@@ -259,6 +272,7 @@
                     });
                 });
             </script>
+
 
 
         </div>
