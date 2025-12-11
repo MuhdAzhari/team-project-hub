@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use App\Models\Project;
 use Illuminate\View\View;
+use App\Models\ActivityLog;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 
 class TaskController extends Controller
 {
@@ -35,6 +37,13 @@ class TaskController extends Controller
 
         Task::create($data);
 
+        ActivityLog::forTask(
+            $task,
+            'task_created',
+            "Task '{$task->title}' was created in project '{$task->project->name}'.",
+            $data
+        );
+
         return redirect()
             ->route('projects.show', $data['project_id'])
             ->with('success', 'Task created successfully.');
@@ -60,16 +69,58 @@ class TaskController extends Controller
             'due_date'    => ['nullable', 'date'],
         ]);
 
+        $original = $task->getOriginal();
+
         $task->update($data);
+
+        $changes = [];
+
+        if ($original['status'] !== $task->status) {
+            $changes['status'] = [
+                'old' => $original['status'],
+                'new' => $task->status,
+            ];
+        }
+
+        if ($original['assigned_to'] !== $task->assigned_to) {
+            $changes['assigned_to'] = [
+                'old' => $original['assigned_to'],
+                'new' => $task->assigned_to,
+            ];
+        }
+
+        foreach (['title', 'priority', 'due_date'] as $field) {
+            if ($original[$field] != $task->{$field}) {
+                $changes[$field] = [
+                    'old' => $original[$field],
+                    'new' => $task->{$field},
+                ];
+            }
+        }
+
+        ActivityLog::forTask(
+            $task,
+            'task_updated',
+            "Task '{$task->title}' was updated.",
+            $changes ?: null
+        );
 
         return redirect()
             ->route('projects.show', $task->project_id)
             ->with('success', 'Task updated successfully.');
     }
 
+
     public function destroy(Task $task): RedirectResponse
     {
         $projectId = $task->project_id;
+
+        ActivityLog::forTask(
+            $task,
+            'task_deleted',
+            "Task '{$task->title}' was deleted."
+        );
+
 
         $task->delete();
 
@@ -85,8 +136,15 @@ class TaskController extends Controller
         ]);
 
         $task->update([
-            'status' => $data['status'],
-        ]);
+                'status' => $data['status'],
+            ]);
+
+        ActivityLog::forTask(
+            $task,
+            'task_status_changed',
+            "Status of task '{$task->title}' changed from '{$oldStatus}' to '{$task->status}'.",
+            ['status' => ['old' => $oldStatus, 'new' => $task->status]]
+        );
 
         return redirect()
             ->route('projects.show', $task->project_id)

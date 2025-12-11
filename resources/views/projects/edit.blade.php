@@ -51,16 +51,27 @@
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Status</label>
+
+                            @php
+                                $statuses = [
+                                    'planned'   => 'Planned',
+                                    'active'    => 'Active',
+                                    'on_hold'   => 'On Hold',
+                                    'completed' => 'Completed',
+                                ];
+                            @endphp
+
                             <select name="status"
                                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                                @foreach (['planned', 'active', 'on_hold', 'completed'] as $status)
-                                    <option value="{{ $status }}"
-                                        @selected(old('status', $project->status) == $status)>
-                                         <x-status-badge :status="$project->status" />
+                                @foreach ($statuses as $value => $label)
+                                    <option value="{{ $value }}"
+                                        @selected(old('status', $project->status) == $value)>
+                                        {{ $label }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
+
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>

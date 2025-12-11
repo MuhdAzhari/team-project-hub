@@ -295,6 +295,66 @@
                 });
             </script>
 
+            @if(isset($activityLogs) && $activityLogs->isNotEmpty())
+                <div class="bg-white shadow-sm sm:rounded-lg mt-6">
+                    <div class="p-6 text-gray-900">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                            Activity Log
+                        </h3>
+
+                        <ul class="divide-y divide-gray-200 text-sm">
+                            @foreach ($activityLogs as $log)
+                                <li class="py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                                    <div class="space-y-1">
+                                        <div class="text-gray-800">
+                                            @if ($log->user)
+                                                <span class="font-semibold">{{ $log->user->name }}</span>
+                                            @else
+                                                <span class="font-semibold text-gray-500">System</span>
+                                            @endif
+
+                                            <span class="text-gray-500">performed</span>
+                                            <span class="font-mono text-xs px-1.5 py-0.5 rounded bg-gray-100">
+                                                {{ $log->action }}
+                                            </span>
+                                        </div>
+
+                                        @if ($log->description)
+                                            <div class="text-gray-600">
+                                                {{ $log->description }}
+                                            </div>
+                                        @endif
+
+                                        @if ($log->changes)
+                                            <div class="text-xs text-gray-500">
+                                                @foreach ($log->changes as $field => $change)
+                                                    <div>
+                                                        <span class="font-semibold">{{ ucfirst(str_replace('_', ' ', $field)) }}:</span>
+                                                        {{ $change['old'] ?? '-' }}
+                                                        →
+                                                        {{ $change['new'] ?? '-' }}
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="mt-2 sm:mt-0 text-xs text-gray-400">
+                                        {{ $log->created_at->format('Y-m-d H:i') }}
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @else
+                <div class="bg-white shadow-sm sm:rounded-lg mt-6">
+                    <div class="p-6 text-gray-500 text-sm">
+                        No activity recorded yet for this project.
+                    </div>
+                </div>
+            @endif
+
 
 
         </div>
