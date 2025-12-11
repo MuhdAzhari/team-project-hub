@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\Project;
-use Illuminate\View\View;
 use App\Models\ActivityLog;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class TaskController extends Controller
 {
@@ -35,7 +34,7 @@ class TaskController extends Controller
             'due_date'    => ['nullable', 'date'],
         ]);
 
-        Task::create($data);
+        $task = Task::create($data);
 
         ActivityLog::forTask(
             $task,
@@ -110,7 +109,6 @@ class TaskController extends Controller
             ->with('success', 'Task updated successfully.');
     }
 
-
     public function destroy(Task $task): RedirectResponse
     {
         $projectId = $task->project_id;
@@ -121,7 +119,6 @@ class TaskController extends Controller
             "Task '{$task->title}' was deleted."
         );
 
-
         $task->delete();
 
         return redirect()
@@ -129,25 +126,35 @@ class TaskController extends Controller
             ->with('success', 'Task deleted successfully.');
     }
 
-    public function updateStatus(Request $request, Task $task): RedirectResponse
+    public function updateStatus(Request $request, Task $task)
     {
-        $data = $request->validate([
+        $request->validate([
             'status' => ['required', 'in:todo,in_progress,done'],
         ]);
 
-        $task->update([
-                'status' => $data['status'],
-            ]);
+        $oldStatus = $task->status;
+        $newStatus = $request->status;
 
-        ActivityLog::forTask(
-            $task,
-            'task_status_changed',
-            "Status of task '{$task->title}' changed from '{$oldStatus}' to '{$task->status}'.",
-            ['status' => ['old' => $oldStatus, 'new' => $task->status]]
-        );
+        // Only log if the status actually changed
+        if ($oldStatus !== $newStatus) {
 
-        return redirect()
-            ->route('projects.show', $task->project_id)
-            ->with('success', 'Task status updated.');
+            // Update the task
+            $task->update(['status' => $newStatus]);
+
+            // Log activity
+            ActivityLog::forTask(
+                $task,
+                'task_status_changed',
+                "Status of task '{$task->title}' changed from '{$oldStatus}' to '{$newStatus}'.",
+                [
+                    'status' => [
+                        'old' => $oldStatus,
+                        'new' => $newStatus,
+                    ],
+                ]
+            );
+        }
+
+        return response()->json(['success' => true]);
     }
 }

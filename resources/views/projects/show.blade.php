@@ -18,7 +18,7 @@
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 space-y-2">
                     <p><strong>Client:</strong> {{ $project->client?->name ?? '-' }}</p>
-                    <p><strong>Status:</strong>  <x-status-badge :status="$project->status" /></p>
+                    <p><strong>Status:</strong> <x-status-badge :status="$project->status" /></p>
                     <p><strong>Start Date:</strong> {{ $project->start_date ?? '-' }}</p>
                     <p><strong>End Date:</strong> {{ $project->end_date ?? '-' }}</p>
                     <p><strong>Description:</strong> {{ $project->description ?? '-' }}</p>
@@ -39,7 +39,7 @@
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-lg font-semibold text-gray-900">Tasks (Kanban)</h3>
                         <a href="{{ route('tasks.create', ['project_id' => $project->id]) }}"
-                        class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
+                           class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
                             + Add Task
                         </a>
                     </div>
@@ -57,12 +57,13 @@
 
                             {{-- To Do column --}}
                             <div class="kanban-column rounded-lg bg-sky-50/60 border border-sky-100"
-                                data-status="todo">
+                                 data-status="todo">
                                 <div class="flex items-center justify-between px-3 pt-3 pb-1">
                                     <h4 class="font-semibold text-sky-900 text-sm uppercase tracking-wide">
                                         To Do
                                     </h4>
-                                    <span class="text-xs px-2 py-1 rounded-full bg-sky-100 text-sky-700">
+                                    <span class="text-xs px-2 py-1 rounded-full bg-sky-100 text-sky-700"
+                                          data-status-count="todo">
                                         {{ $todo->count() }}
                                     </span>
                                 </div>
@@ -70,9 +71,9 @@
                                     @foreach ($todo as $task)
                                         <div class="task-card border border-sky-100 rounded-md p-3 bg-white cursor-move
                                                     shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5"
-                                            draggable="true"
-                                            data-task-id="{{ $task->id }}"
-                                            data-status="todo">
+                                             draggable="true"
+                                             data-task-id="{{ $task->id }}"
+                                             data-status="todo">
                                             <div class="font-semibold text-gray-900">{{ $task->title }}</div>
                                             <div class="mt-1 text-xs text-gray-500 space-y-1">
                                                 <div>
@@ -87,16 +88,15 @@
                                                 </div>
                                             </div>
 
-
                                             <div class="mt-3 flex justify-end space-x-1">
                                                 <a href="{{ route('tasks.edit', $task) }}"
-                                                class="px-2 py-1 text-xs bg-yellow-500 text-white rounded hover:bg-yellow-600">
+                                                   class="px-2 py-1 text-xs bg-yellow-500 text-white rounded hover:bg-yellow-600">
                                                     Edit
                                                 </a>
                                                 <form action="{{ route('tasks.destroy', $task) }}"
-                                                    method="POST"
-                                                    onsubmit="return confirm('Delete this task?');"
-                                                    class="inline">
+                                                      method="POST"
+                                                      onsubmit="return confirm('Delete this task?');"
+                                                      class="inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
@@ -112,12 +112,13 @@
 
                             {{-- In Progress column --}}
                             <div class="kanban-column rounded-lg bg-amber-50/60 border border-amber-100"
-                                data-status="in_progress">
+                                 data-status="in_progress">
                                 <div class="flex items-center justify-between px-3 pt-3 pb-1">
                                     <h4 class="font-semibold text-amber-900 text-sm uppercase tracking-wide">
                                         In Progress
                                     </h4>
-                                    <span class="text-xs px-2 py-1 rounded-full bg-amber-100 text-amber-700">
+                                    <span class="text-xs px-2 py-1 rounded-full bg-amber-100 text-amber-700"
+                                          data-status-count="in_progress">
                                         {{ $inProgress->count() }}
                                     </span>
                                 </div>
@@ -125,9 +126,9 @@
                                     @foreach ($inProgress as $task)
                                         <div class="task-card border border-amber-100 rounded-md p-3 bg-white cursor-move
                                                     shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5"
-                                            draggable="true"
-                                            data-task-id="{{ $task->id }}"
-                                            data-status="in_progress">
+                                             draggable="true"
+                                             data-task-id="{{ $task->id }}"
+                                             data-status="in_progress">
                                             <div class="font-semibold text-gray-900">{{ $task->title }}</div>
                                             <div class="mt-1 text-xs text-gray-500 space-y-1">
                                                 <div>
@@ -144,13 +145,13 @@
 
                                             <div class="mt-3 flex justify-end space-x-1">
                                                 <a href="{{ route('tasks.edit', $task) }}"
-                                                class="px-2 py-1 text-xs bg-yellow-500 text-white rounded hover:bg-yellow-600">
+                                                   class="px-2 py-1 text-xs bg-yellow-500 text-white rounded hover:bg-yellow-600">
                                                     Edit
                                                 </a>
                                                 <form action="{{ route('tasks.destroy', $task) }}"
-                                                    method="POST"
-                                                    onsubmit="return confirm('Delete this task?');"
-                                                    class="inline">
+                                                      method="POST"
+                                                      onsubmit="return confirm('Delete this task?');"
+                                                      class="inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
@@ -166,12 +167,13 @@
 
                             {{-- Done column --}}
                             <div class="kanban-column rounded-lg bg-emerald-50/60 border border-emerald-100"
-                                data-status="done">
+                                 data-status="done">
                                 <div class="flex items-center justify-between px-3 pt-3 pb-1">
                                     <h4 class="font-semibold text-emerald-900 text-sm uppercase tracking-wide">
                                         Done
                                     </h4>
-                                    <span class="text-xs px-2 py-1 rounded-full bg-emerald-100 text-emerald-700">
+                                    <span class="text-xs px-2 py-1 rounded-full bg-emerald-100 text-emerald-700"
+                                          data-status-count="done">
                                         {{ $done->count() }}
                                     </span>
                                 </div>
@@ -179,9 +181,9 @@
                                     @foreach ($done as $task)
                                         <div class="task-card border border-emerald-100 rounded-md p-3 bg-white cursor-move
                                                     shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5"
-                                            draggable="true"
-                                            data-task-id="{{ $task->id }}"
-                                            data-status="done">
+                                             draggable="true"
+                                             data-task-id="{{ $task->id }}"
+                                             data-status="done">
                                             <div class="font-semibold text-gray-900">{{ $task->title }}</div>
                                             <div class="mt-1 text-xs text-gray-500 space-y-1">
                                                 <div>
@@ -198,13 +200,13 @@
 
                                             <div class="mt-3 flex justify-end space-x-1">
                                                 <a href="{{ route('tasks.edit', $task) }}"
-                                                class="px-2 py-1 text-xs bg-yellow-500 text-white rounded hover:bg-yellow-600">
+                                                   class="px-2 py-1 text-xs bg-yellow-500 text-white rounded hover:bg-yellow-600">
                                                     Edit
                                                 </a>
                                                 <form action="{{ route('tasks.destroy', $task) }}"
-                                                    method="POST"
-                                                    onsubmit="return confirm('Delete this task?');"
-                                                    class="inline">
+                                                      method="POST"
+                                                      onsubmit="return confirm('Delete this task?');"
+                                                      class="inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
@@ -229,6 +231,17 @@
                 document.addEventListener('DOMContentLoaded', function () {
                     let draggedCard = null;
                     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                    function updateColumnCounts() {
+                        document.querySelectorAll('.kanban-column').forEach(function (column) {
+                            const status = column.dataset.status;
+                            const badge  = column.querySelector('[data-status-count="' + status + '"]');
+                            if (!badge) return;
+
+                            const count = column.querySelectorAll('.task-card').length;
+                            badge.textContent = count;
+                        });
+                    }
 
                     // Make task cards draggable
                     document.querySelectorAll('.task-card').forEach(function (card) {
@@ -274,6 +287,9 @@
                             body.appendChild(draggedCard);
                             draggedCard.dataset.status = newStatus;
 
+                            // Update lane counters
+                            updateColumnCounts();
+
                             // Update server
                             fetch(`/tasks/${taskId}/status`, {
                                 method: 'PATCH',
@@ -283,18 +299,25 @@
                                     'Accept': 'application/json',
                                 },
                                 body: JSON.stringify({ status: newStatus })
-                            }).then(function (response) {
-                                if (!response.ok) {
-                                    window.location.reload();
-                                }
-                            }).catch(function () {
+                            })
+                            .then(function (response) {
+                                // On any response, reload to refresh Activity Log + Kanban from DB
+                                window.location.reload();
+                            })
+                            .catch(function () {
+                                // On error, also reload to avoid inconsistent state
                                 window.location.reload();
                             });
                         });
                     });
+
+                    // Initial sync
+                    updateColumnCounts();
                 });
             </script>
 
+
+            {{-- Activity Log --}}
             @if(isset($activityLogs) && $activityLogs->isNotEmpty())
                 <div class="bg-white shadow-sm sm:rounded-lg mt-6">
                     <div class="p-6 text-gray-900">
@@ -354,8 +377,6 @@
                     </div>
                 </div>
             @endif
-
-
 
         </div>
     </div>
