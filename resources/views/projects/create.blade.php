@@ -54,7 +54,7 @@
                                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
                                 @foreach (['planned', 'active', 'on_hold', 'completed'] as $status)
                                     <option value="{{ $status }}" @selected(old('status') == $status)>
-                                        {{ ucfirst($status) }}
+                                       {{ ucfirst(str_replace('_', ' ', $status)) }}
                                     </option>
                                 @endforeach
                             </select>

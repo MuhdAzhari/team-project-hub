@@ -56,7 +56,7 @@
                                 @foreach (['planned', 'active', 'on_hold', 'completed'] as $status)
                                     <option value="{{ $status }}"
                                         @selected(old('status', $project->status) == $status)>
-                                        {{ ucfirst($status) }}
+                                        {{ ucfirst(str_replace('_', ' ', $status)) }}
                                     </option>
                                 @endforeach
                             </select>

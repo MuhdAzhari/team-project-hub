@@ -34,9 +34,16 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // 💡 Add your CRUD routes here
+    // Clients & Projects
     Route::resource('clients', ClientController::class);
     Route::resource('projects', ProjectController::class);
+
+    // Tasks (no separate index/show; tasks are always viewed via project)
+    Route::resource('tasks', TaskController::class)->except(['index', 'show']);
+
+    // Quick status update for Kanban
+    Route::patch('tasks/{task}/status', [TaskController::class, 'updateStatus'])
+        ->name('tasks.update-status');
 });
 
 // Auth scaffolding
