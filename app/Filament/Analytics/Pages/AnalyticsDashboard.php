@@ -17,7 +17,8 @@ final class AnalyticsDashboard extends Page
     {
         return [
             \App\Filament\Analytics\Widgets\KpiOverview::class,
-             \App\Filament\Analytics\Widgets\TasksCreatedTrend::class,
+            \App\Filament\Analytics\Widgets\TasksCreatedTrend::class,
+            \App\Filament\Analytics\Widgets\TasksCompletedTrend::class,
         ];
     }
 }
