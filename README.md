@@ -66,7 +66,7 @@ A separate Filament analytics panel is available at `/analytics` to provide desc
 - **Admin:** Global analytics + admin-only activity summary widgets
 - **Member:** Read-only analytics scoped to tasks assigned to the user
 
-**Included (public-safe)**
+**Included **
 - KPI overview (counts)
 - Task trends (Created / Completed)
 - Task status distribution
