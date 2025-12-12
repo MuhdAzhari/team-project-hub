@@ -20,6 +20,8 @@ final class AnalyticsDashboard extends Page
             \App\Filament\Analytics\Widgets\TasksCreatedTrend::class,
             \App\Filament\Analytics\Widgets\TasksCompletedTrend::class,
             \App\Filament\Analytics\Widgets\TaskStatusDistribution::class,
+            \App\Filament\Analytics\Widgets\ActivityActionsByDay::class,
+            \App\Filament\Analytics\Widgets\RecentActivityTable::class,
         ];
     }
 }
