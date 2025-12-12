@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 final class ActivityActionsByDay extends LineChartWidget
 {
-    protected static ?string $heading = 'Activity Actions (Last 30 Days)';
+    protected static ?string $heading = 'Activity Actions';
 
     public static function canView(): bool
     {
@@ -18,9 +18,15 @@ final class ActivityActionsByDay extends LineChartWidget
 
     protected function getData(): array
     {
+        $filters = \App\Support\AnalyticsFilters::get();
+
+        $from = Carbon::parse($filters['date_from'])->startOfDay();
+        $to   = Carbon::parse($filters['date_to'])->addDay()->startOfDay(); // exclusive upper bound
+
         $rows = ActivityLog::query()
             ->selectRaw('DATE(created_at) as d, COUNT(*) as c')
-            ->where('created_at', '>=', now()->subDays(30))
+            ->where('created_at', '>=', $from)
+            ->where('created_at', '<', $to)
             ->groupBy(DB::raw('DATE(created_at)'))
             ->orderBy('d')
             ->get()
@@ -29,8 +35,13 @@ final class ActivityActionsByDay extends LineChartWidget
         $labels = [];
         $data   = [];
 
-        $days = collect(range(0, 29))
-            ->map(fn (int $i) => Carbon::today()->subDays(29 - $i)->toDateString());
+        $days = collect();
+        $cursor = $from->copy();
+
+        while ($cursor->lt($to)) {
+            $days->push($cursor->toDateString());
+            $cursor->addDay();
+        }
 
         foreach ($days as $d) {
             $labels[] = Carbon::parse($d)->format('d M');

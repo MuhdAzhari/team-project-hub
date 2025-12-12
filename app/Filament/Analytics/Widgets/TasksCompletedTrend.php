@@ -9,16 +9,22 @@ use Illuminate\Support\Facades\DB;
 
 final class TasksCompletedTrend extends LineChartWidget
 {
-    protected static ?string $heading = 'Tasks Completed (Last 30 Days)';
+    protected static ?string $heading = 'Tasks Completed';
 
     protected function getData(): array
     {
         $user = auth()->user();
 
+        $filters = \App\Support\AnalyticsFilters::get();
+
+        $from = Carbon::parse($filters['date_from'])->startOfDay();
+        $to   = Carbon::parse($filters['date_to'])->addDay()->startOfDay(); // exclusive upper bound
+
         $query = Task::query()
             ->selectRaw('DATE(updated_at) as d, COUNT(*) as c')
             ->where('status', 'done')
-            ->where('updated_at', '>=', now()->subDays(30))
+            ->where('updated_at', '>=', $from)
+            ->where('updated_at', '<', $to)
             ->groupBy(DB::raw('DATE(updated_at)'))
             ->orderBy('d');
 
@@ -31,12 +37,14 @@ final class TasksCompletedTrend extends LineChartWidget
         $labels = [];
         $data   = [];
 
-        $days = collect(range(0, 29))
-            ->map(fn (int $i) => Carbon::today()->subDays(29 - $i)->toDateString());
+        $cursor = $from->copy();
+        while ($cursor->lt($to)) {
+            $d = $cursor->toDateString();
 
-        foreach ($days as $d) {
-            $labels[] = Carbon::parse($d)->format('d M');
+            $labels[] = $cursor->format('d M');
             $data[]   = (int) ($rows[$d]->c ?? 0);
+
+            $cursor->addDay();
         }
 
         return [
