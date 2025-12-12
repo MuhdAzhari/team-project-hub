@@ -39,6 +39,14 @@ Each entry records:
 - Timestamp  
 - Field-level changes (old → new)
 
+### 📊 Analytics Dashboard
+- Global date filtering (Last 7 / 30 / 90 days or custom range)
+- Task creation and completion trends
+- Task status distribution
+- Admin activity analytics
+- Role-based visibility (Admin vs Member)
+
+
 ## 🏗 Tech Stack
 
 | Layer | Technology |

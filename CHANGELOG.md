@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
+---
+
+## [1.2.0] – 2025-12-12
+
+### Added
+- Dedicated Analytics Dashboard (Filament panel).
+- Global date filters (preset ranges and custom range).
+- Task trends (created and completed).
+- Task status distribution chart.
+- Admin-only activity analytics.
+- Role-aware analytics scoping (Admin vs Member).
+
+### Design Decisions
+- KPI snapshot reflects current system state and is not date-filtered.
+- Distribution charts represent current status, not historical states.
+
+### Notes
+- Analytics are descriptive only (public-safe).
+- No predictive or adaptive logic included.
+
 
 ---
 
