@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.1.0] – 2025-12-12
+
+### Added
+- Filament Analytics panel at `/analytics`.
+- Role-based analytics access:
+  - Admin: global analytics + admin-only activity widgets.
+  - Member: read-only analytics scoped to assigned tasks.
+- Analytics widgets:
+  - KPI overview (clients/projects/tasks, open vs done).
+  - Tasks created trend (last 30 days).
+  - Tasks completed trend (last 30 days, using updated_at as completion proxy).
+  - Task status distribution (pie chart).
+  - Admin-only activity actions trend (last 30 days).
+  - Admin-only recent activity table.
+
+### Improved
+- Visual clarity of task status pie chart using distinct colours.
+
+---
+
 ## [1.0.3] – 2025-12-12
 
 ### Added

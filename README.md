@@ -50,6 +50,25 @@ Each entry records:
 | UI Components | Blade components |
 | Version Control | GitHub |
 
+## 📊 Analytics Subsystem (Filament)
+
+A separate Filament analytics panel is available at `/analytics` to provide descriptive insights.
+
+**Access**
+- **Admin:** Global analytics + admin-only activity summary widgets
+- **Member:** Read-only analytics scoped to tasks assigned to the user
+
+**Included (public-safe)**
+- KPI overview (counts)
+- Task trends (Created / Completed)
+- Task status distribution
+- Activity summaries (admin only)
+
+**Excluded**
+- Predictive or adaptive analytics
+- Individual performance scoring
+
+
 ## 🔧 Installation
 
 ```bash
@@ -101,13 +120,14 @@ Each log records: user, timestamp, description, changes.
 
 ## 🧭 Roadmap
 
-- [ ] Global Activity Log page  
-- [ ] Dashboard widgets  
-- [ ] File attachments  
-- [ ] Task comments  
-- [ ] Advanced search & filters  
-- [ ] API endpoints  
-- [ ] WebSocket real-time updates  
+- [x] Dashboard widgets (analytics panel)
+- [ ] Date range filters for analytics
+- [ ] Project-level analytics pages
+- [ ] File attachments
+- [ ] Task comments
+- [ ] Advanced search & filters
+- [ ] WebSocket real-time updates
+ 
 
 ## 🧑‍💻 Author
 **Muhammad Azhari Ahmad Kamil**  
