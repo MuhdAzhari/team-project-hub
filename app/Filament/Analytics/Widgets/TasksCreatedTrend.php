@@ -11,11 +11,18 @@ final class TasksCreatedTrend extends LineChartWidget
 {
     protected static ?string $heading = 'Tasks Created';
 
+    
+
     protected function getData(): array
     {
         $user = auth()->user();
 
         $filters = \App\Support\AnalyticsFilters::get();
+
+        $fromLabel = Carbon::parse($filters['date_from'])->format('d M Y');
+        $toLabel   = Carbon::parse($filters['date_to'])->format('d M Y');
+
+        static::$heading = "Tasks Created ({$fromLabel} – {$toLabel})";
 
         $from = Carbon::parse($filters['date_from'])->startOfDay();
         $to   = Carbon::parse($filters['date_to'])->addDay()->startOfDay(); // exclusive upper bound
