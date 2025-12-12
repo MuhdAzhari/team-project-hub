@@ -47,7 +47,7 @@ Each entry records:
 | Frontend | Blade + TailwindCSS + Vanilla JS |
 | Authentication | Laravel Breeze |
 | Database | MySQL / MariaDB |
-| UI Components | Blade components |
+| UI Components | Blade components, Filament (Admin Analytics) |
 | Version Control | GitHub |
 
 ## 📊 Analytics Subsystem (Filament)
@@ -67,6 +67,9 @@ A separate Filament analytics panel is available at `/analytics` to provide desc
 **Excluded**
 - Predictive or adaptive analytics
 - Individual performance scoring
+
+> Note: Analytics is intentionally separated from the core application to demonstrate modular architecture.
+
 
 
 ## 🔧 Installation
