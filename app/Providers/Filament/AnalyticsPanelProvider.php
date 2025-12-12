@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Http\Middleware\EnsureAnalyticsUserCanAccess;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -33,18 +34,9 @@ final class AnalyticsPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ])
-            ->discoverWidgets(in: app_path('Filament/Analytics/Widgets'), for: 'App\\Filament\\Analytics\\Widgets')
-            ->widgets([
-                // will be registered later
+                EnsureAnalyticsUserCanAccess::class,
             ])
             ->discoverPages(in: app_path('Filament/Analytics/Pages'), for: 'App\\Filament\\Analytics\\Pages')
-            ->pages([
-                \App\Filament\Analytics\Pages\AnalyticsDashboard::class,
-            ])
-            ->canAccess(function (): bool {
-                $user = auth()->user();
-                return $user !== null && in_array($user->role, ['admin', 'member'], true);
-            });
+            ->discoverWidgets(in: app_path('Filament/Analytics/Widgets'), for: 'App\\Filament\\Analytics\\Widgets');
     }
 }
