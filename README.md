@@ -39,6 +39,14 @@ Each entry records:
 - Timestamp  
 - Field-level changes (old → new)
 
+### 📊 Analytics Dashboard
+- Global date filtering (Last 7 / 30 / 90 days or custom range)
+- Task creation and completion trends
+- Task status distribution
+- Admin activity analytics
+- Role-based visibility (Admin vs Member)
+
+
 ## 🏗 Tech Stack
 
 | Layer | Technology |
@@ -47,8 +55,30 @@ Each entry records:
 | Frontend | Blade + TailwindCSS + Vanilla JS |
 | Authentication | Laravel Breeze |
 | Database | MySQL / MariaDB |
-| UI Components | Blade components |
+| UI Components | Blade components, Filament (Admin Analytics) |
 | Version Control | GitHub |
+
+## 📊 Analytics Subsystem (Filament)
+
+A separate Filament analytics panel is available at `/analytics` to provide descriptive insights.
+
+**Access**
+- **Admin:** Global analytics + admin-only activity summary widgets
+- **Member:** Read-only analytics scoped to tasks assigned to the user
+
+**Included **
+- KPI overview (counts)
+- Task trends (Created / Completed)
+- Task status distribution
+- Activity summaries (admin only)
+
+**Excluded**
+- Predictive or adaptive analytics
+- Individual performance scoring
+
+> Note: Analytics is intentionally separated from the core application to demonstrate modular architecture.
+
+
 
 ## 🔧 Installation
 
@@ -101,13 +131,14 @@ Each log records: user, timestamp, description, changes.
 
 ## 🧭 Roadmap
 
-- [ ] Global Activity Log page  
-- [ ] Dashboard widgets  
-- [ ] File attachments  
-- [ ] Task comments  
-- [ ] Advanced search & filters  
-- [ ] API endpoints  
-- [ ] WebSocket real-time updates  
+- [x] Dashboard widgets (analytics panel)
+- [ ] Date range filters for analytics
+- [ ] Project-level analytics pages
+- [ ] File attachments
+- [ ] Task comments
+- [ ] Advanced search & filters
+- [ ] WebSocket real-time updates
+ 
 
 ## 🧑‍💻 Author
 **Muhammad Azhari Ahmad Kamil**  

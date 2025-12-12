@@ -4,6 +4,46 @@ All notable changes to this project will be documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
+---
+
+## [1.2.0] – 2025-12-12
+
+### Added
+- Dedicated Analytics Dashboard (Filament panel).
+- Global date filters (preset ranges and custom range).
+- Task trends (created and completed).
+- Task status distribution chart.
+- Admin-only activity analytics.
+- Role-aware analytics scoping (Admin vs Member).
+
+### Design Decisions
+- KPI snapshot reflects current system state and is not date-filtered.
+- Distribution charts represent current status, not historical states.
+
+### Notes
+- Analytics are descriptive only (public-safe).
+- No predictive or adaptive logic included.
+
+
+---
+
+## [1.1.0] – 2025-12-12
+
+### Added
+- Filament Analytics panel at `/analytics`.
+- Role-based analytics access:
+  - Admin: global analytics + admin-only activity widgets.
+  - Member: read-only analytics scoped to assigned tasks.
+- Analytics widgets:
+  - KPI overview (clients/projects/tasks, open vs done).
+  - Tasks created trend (last 30 days).
+  - Tasks completed trend (last 30 days, using updated_at as completion proxy).
+  - Task status distribution (pie chart).
+  - Admin-only activity actions trend (last 30 days).
+  - Admin-only recent activity table.
+
+### Improved
+- Visual clarity of task status pie chart using distinct colours.
 
 ---
 
